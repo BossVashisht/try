@@ -33,8 +33,16 @@ for ax, image, label in zip(axes, digits.images, digits.target):
 
 n_samples = len(digits.images)
 
+
+
 data = digits.images.reshape((n_samples, -1))
 
+
+print()
+print('shape of images in given dataset is :')
+print(digits.images[1].shape)
+print()
+print()
 
 X_train, X_dev_test, y_train, y_dev_test = train_test_split(
     data, digits.target, test_size= 1 - train_frac, shuffle= True
@@ -49,6 +57,8 @@ X_test, X_dev , y_test, y_dev = train_test_split(
 best_acc = -1.0
 best_model = None
 best_h_params = None
+
+
 
 for cur_h_params in h_param_comb :
 
