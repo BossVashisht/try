@@ -2,7 +2,9 @@
 import matplotlib.pyplot as plt
 from sklearn import datasets, svm, metrics
 from sklearn.model_selection import train_test_split
-
+import skimage
+from skimage.transform import rescale , resize
+import numpy as np
 
 
 gamma_list = [0.01,0.005,0.001,0.0005,0.0001]
@@ -23,6 +25,8 @@ dev_frac  = 0.1
 
 digits = datasets.load_digits()
 
+
+
 _, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
 for ax, image, label in zip(axes, digits.images, digits.target):
     ax.set_axis_off()
@@ -33,16 +37,30 @@ for ax, image, label in zip(axes, digits.images, digits.target):
 
 n_samples = len(digits.images)
 
-
-
-data = digits.images.reshape((n_samples, -1))
-
-
 print()
-print('shape of images in given dataset is :')
+print(" size of imaes in old dataset is  ")
 print(digits.images[1].shape)
 print()
+
+
+digits_modified = []
+
+for i in range(len(digits.images)):
+    digits_modified.append(resize(digits.images[i],(5,5),anti_aliasing= True))
+
+
+
+print("size of images in modified dataset ")
+print(digits_modified[1].shape)
 print()
+
+digits_modified_new = np.array(digits_modified)
+
+#data = digits.images.reshape((n_samples, -1))
+
+data = digits_modified_new.reshape((n_samples, -1))
+
+
 
 X_train, X_dev_test, y_train, y_dev_test = train_test_split(
     data, digits.target, test_size= 1 - train_frac, shuffle= True
@@ -91,7 +109,7 @@ predicted = clf.predict(X_test)
 _, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
 for ax, image, prediction in zip(axes, X_test, predicted):
     ax.set_axis_off()
-    image = image.reshape(8, 8)
+    image = image.reshape(5, 5)
     ax.imshow(image, cmap=plt.cm.gray_r, interpolation="nearest")
     ax.set_title(f"Prediction: {prediction}")
 
