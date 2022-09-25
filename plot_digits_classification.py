@@ -22,7 +22,7 @@ train_frac = 0.8
 test_frac = 0.1
 dev_frac  = 0.1
 
-
+print(train_frac)
 digits = datasets.load_digits()
 
 
